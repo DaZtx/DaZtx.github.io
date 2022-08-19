@@ -44,15 +44,39 @@
 
     <div class="post-md">
         <h1 id="第一篇博客"><a href="#第一篇博客" class="headerlink" title="第一篇博客"></a>第一篇博客</h1><h2 id="搭建个人博客（基于-Hexo-amp-Github）"><a href="#搭建个人博客（基于-Hexo-amp-Github）" class="headerlink" title="搭建个人博客（基于 Hexo &amp; Github）"></a>搭建个人博客（基于 Hexo &amp; Github）</h2><h3 id="一、准备工具"><a href="#一、准备工具" class="headerlink" title="一、准备工具"></a>一、准备工具</h3><p>Node.js：[<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Download | Node.js (nodejs.org)</a>]</p>
+<p>Git：[<a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git - 下载 (git-scm.com)</a>]</p>
+<p>GitHub仓库</p>
 <h4 id="配置node-js"><a href="#配置node-js" class="headerlink" title="配置node.js"></a>配置node.js</h4><p>1、在安装目录下添加两个文件夹 node_global 和 node_cache 如下</p>
 <p><img src="https://daztx.github.io/img/postimg/1.png"></p>
 <p>2、打开cmd（可能需要以管理员身份运行）</p>
 <figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> prefix &quot;E:\BlogeSource\nodejs\node_global&quot;</span><br><span class="line">npm config <span class="built_in">set</span> cache E:\BlogeSource\nodejs\node_cache&quot;</span><br></pre></td></tr></table></figure>
 
 <p>3、环境配置</p>
-<p>系统变量下新建NODE_PATH ，变量值为E:\BlogeSource\nodejs\node_global\node_modules</p>
-<p>用户变量下的Path点击编辑，将默认路径C:\users****修改为E:\BlogeSource\nodejs\node_global</p>
-<p>Git：[<a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git - 下载 (git-scm.com)</a>]</p>
+<p>​	系统变量下新建NODE_PATH ，变量值为E:\BlogeSource\nodejs\node_global\node_modules</p>
+<p>​	用户变量下的Path点击编辑，将默认路径C:\users****修改为E:\BlogeSource\nodejs\node_global</p>
+<h5 id="检查安装是否成功"><a href="#检查安装是否成功" class="headerlink" title="检查安装是否成功"></a>检查安装是否成功</h5><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node <span class="literal">-v</span></span><br><span class="line">git <span class="literal">-v</span></span><br><span class="line">npm <span class="literal">-v</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="下载hexo"><a href="#下载hexo" class="headerlink" title="下载hexo"></a>下载hexo</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-cli</span> <span class="literal">-g</span>    <span class="comment">#全局安装</span></span><br><span class="line">npm <span class="literal">-v</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="仓库创建"><a href="#仓库创建" class="headerlink" title="仓库创建"></a>仓库创建</h4><p>仓库名：GitHub用户名.github.io</p>
+<h3 id="生成SSH密钥"><a href="#生成SSH密钥" class="headerlink" title="生成SSH密钥"></a>生成SSH密钥</h3><p>任意文件夹下打开给git brash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t ras -c &quot;GitHub用户名.github.io&quot;</span><br></pre></td></tr></table></figure>
+
+<p>打开C:\Users\用户名  下的.ssh文件，复制id_rsa.pub里的密钥</p>
+<p>将密钥粘贴到github-SSH and GPG keys里 add ssh key</p>
+<p>测试绑定：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh<span class="literal">-t</span> git@github.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成本地博客"><a href="#生成本地博客" class="headerlink" title="生成本地博客"></a>生成本地博客</h3><p>在本地博客文件夹中运行git brash</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+
+<h3 id="部署到仓库"><a href="#部署到仓库" class="headerlink" title="部署到仓库"></a>部署到仓库</h3><p>更改博客文件夹下的_config.yml文本的deploy项</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repository: 仓库地址</span><br><span class="line">	branch: main			<span class="comment">#注意&quot;:&quot;后的空格</span></span><br></pre></td></tr></table></figure>
+
+<p>在博客文件夹下给git brash安装hexo工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>github验证</p>
 
     </div>
 
