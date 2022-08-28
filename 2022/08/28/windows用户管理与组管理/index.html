@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>大张同学 | </title>
+    
+<link rel="stylesheet" href="/css/reset.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/markdown.css">
+
+    
+<link rel="stylesheet" href="/css/fonts.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="post-header">
+    <a class="logo" href="/">大张同学</a>
+    <a class="go-home" href="/">
+        <svg width="8" height="14" viewBox="0 0 8 14">
+            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+                
+                <div class="post-main">
+
+    
+        <div class="post-main-title">
+            windows用户管理与组管理
+        </div>
+        <div class="post-meta">
+            2022-08-28
+        </div>
+    
+
+    <div class="post-md">
+        <h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><h4 id="一、用户账户"><a href="#一、用户账户" class="headerlink" title="一、用户账户"></a>一、用户账户</h4><p>1、什么事用账户</p>
+<ul>
+<li><p>不同用户拥有不同权限</p>
+</li>
+<li><p>每个用户拥有唯一的安全标识符SID</p>
+</li>
+<li><p>查看系统中的用户</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前用户的SID</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">whoami /user</span><br><span class="line"><span class="comment">#使用注册便查看，打开注册表</span></span><br><span class="line">regedit</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>​			  打开注册表找到：LOCAL_MACHINED &#x2F; SOFTWARE &#x2F; Microsoft &#x2F; Windows NT &#x2F; CurrentVersion &#x2F; ProfileList</p>
+<ul>
+<li>在Windows中系统管理员的SID时500，普通用户的是的SID从1000开始</li>
+</ul>
+<p>2、用户管理</p>
+<ul>
+<li><p>创建用户</p>
+<ul>
+<li>用户名：</li>
+<li>全名：登录显示名</li>
+<li>账户已锁定：开启阈值，输错密码次数过多将被锁定</li>
+</ul>
+</li>
+<li><p>管理用户</p>
+</li>
+<li><p>设置密码</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">net user name /add	<span class="comment">#创建用户</span></span><br><span class="line">net user name passwors /add <span class="comment">#创建用户及明文密码</span></span><br><span class="line">net user name /add *	<span class="comment">#创建用户及明文密码</span></span><br><span class="line">net user name /<span class="built_in">del</span> <span class="comment">#创建用户及明文密码删除用户</span></span><br><span class="line"><span class="comment">#修改用户密码</span></span><br><span class="line">net user name passwors </span><br><span class="line">net user name *</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>隐藏用户</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net user name<span class="variable">$</span> /add</span><br><span class="line"><span class="comment">#查看</span></span><br><span class="line">wmic useraccount get name,sid</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="二、内置用户账户"><a href="#二、内置用户账户" class="headerlink" title="二、内置用户账户"></a>二、内置用户账户</h4><p>1、与使用者关联的账户</p>
+<ul>
+<li>管理员administrator 拥有最高权限</li>
+<li>普通用户</li>
+<li>来宾用户guest</li>
+</ul>
+<p>2、与组件关联的</p>
+<ul>
+<li>system本地系统 ：拥有最高权限</li>
+<li>local service 本地服务 ：小于普通用户权限</li>
+<li>network service 网络服务 ：等于普通用户权限</li>
+</ul>
+<h3 id="组管理"><a href="#组管理" class="headerlink" title="组管理"></a>组管理</h3><h4 id="一、用户组"><a href="#一、用户组" class="headerlink" title="一、用户组"></a>一、用户组</h4><p>1、概念</p>
+<ul>
+<li>一组用户的集合，组中用户具备相同的权限</li>
+</ul>
+<p>2、创建管理组</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">net localgroup namne /add	<span class="comment">#创建组</span></span><br><span class="line">net localgroup namne /<span class="built_in">del</span>	<span class="comment">#删除组</span></span><br><span class="line">net localgroup groupname username /add <span class="comment">#组中添加用户</span></span><br><span class="line">net localgroup groupname username /<span class="built_in">del</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="二、内置组账户"><a href="#二、内置组账户" class="headerlink" title="二、内置组账户"></a>二、内置组账户</h4><p>1、人为添加</p>
+<p>2、动态包含</p>
+<ul>
+<li>interactive ：动态包含本地登录用户</li>
+<li>authenticated users：动态包含通过验证的用户</li>
+<li>everyone：包含所有用户</li>
+</ul>
+
+    </div>
+
+</div>
+                <div class="footer">
+    <span>Copyright © 2022 大张同学</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>
